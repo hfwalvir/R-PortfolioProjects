@@ -1,0 +1,202 @@
+
+R version 4.4.1 (2024-06-14 ucrt) -- "Race for Your Life"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> # Load required libraries
+> library(ggplot2)
+> library(zoo)
+
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
+> 
+> # Define bond parameters
+> par_value <- 100
+> risk_free_rate <- 0.02
+> coupon_rate <- 0.05
+> maturity <- 5
+> conversion_ratio <- 20  # Number of shares per bond
+> stock_price <- 4.5
+> volatility <- 0.3
+> 
+> # Function to calculate convertible bond price using Black-Scholes model
+> calculate_convertible_bond_price <- function(par, coupon, rf_rate, years, conv_ratio, stock_price, vol) {
++   # Calculate straight bond value
++   coupon_payments <- par * coupon
++   straight_bond_value <- coupon_payments * (1 - (1 + rf_rate)^(-years)) / rf_rate + par / (1 + rf_rate)^years
++   
++   # Calculate conversion value
++   conversion_value <- conv_ratio * stock_price
++   
++   # Calculate option value using Black-Scholes
++   d1 <- (log(stock_price / (par/conv_ratio)) + (rf_rate + 0.5 * vol^2) * years) / (vol * sqrt(years))
++   d2 <- d1 - vol * sqrt(years)
++   
++   # Modified option value calculation
++   option_value <- conv_ratio * (stock_price * pnorm(d1) - (par/conv_ratio) * exp(-rf_rate * years) * pnorm(d2))
++   
++   # Convertible bond value is the maximum of straight bond value and conversion value plus option value
++   convertible_value <- max(straight_bond_value, conversion_value) + option_value
++   
++   return(list(convertible_value = convertible_value, 
++               straight_bond_value = straight_bond_value, 
++               conversion_value = conversion_value, 
++               option_value = option_value))
++ }
+> 
+> # Calculate convertible bond price
+> bond_result <- calculate_convertible_bond_price(par_value, coupon_rate, risk_free_rate, maturity, 
++                                                 conversion_ratio, stock_price, volatility)
+> 
+> # Print results
+> cat("Convertible Bond Price:", round(bond_result$convertible_value, 2), "\n")
+Convertible Bond Price: 137.6 
+> cat("Straight Bond Value:", round(bond_result$straight_bond_value, 2), "\n")
+Straight Bond Value: 114.14 
+> cat("Conversion Value:", round(bond_result$conversion_value, 2), "\n")
+Conversion Value: 90 
+> cat("Option Value:", round(bond_result$option_value, 2), "\n")
+Option Value: 23.46 
+> 
+> # Create a simple yield curve
+> years <- 1:30
+> yields <- risk_free_rate + (0.07 - risk_free_rate) * (1 - exp(-0.1 * years))
+> 
+> # Create a data frame for plotting
+> yield_curve_data <- data.frame(Years = years, Yield = yields)
+> 
+> # Plot 1: Yield Curve
+> p1 <- ggplot(yield_curve_data, aes(x = Years, y = Yield)) +
++   geom_line() +
++   annotate("point", x = maturity, y = risk_free_rate + 0.05, color = "red", size = 3) +
++   labs(title = "Yield Curve with Convertible Bond",
++        x = "Years to Maturity",
++        y = "Yield") +
++   theme_minimal() +
++   annotate("text", x = maturity, y = risk_free_rate + 0.05, 
++            label = "Convertible Bond", vjust = -1, color = "red")
+Error: unexpected end of input
+> # Load required libraries
+> library(ggplot2)
+> library(zoo)
+> 
+> # Define bond parameters
+> par_value <- 100
+> risk_free_rate <- 0.02
+> coupon_rate <- 0.05
+> maturity <- 5
+> conversion_ratio <- 20  # Number of shares per bond
+> stock_price <- 4.5
+> volatility <- 0.3
+> 
+> # Function to calculate convertible bond price using Black-Scholes model
+> calculate_convertible_bond_price <- function(par, coupon, rf_rate, years, conv_ratio, stock_price, vol) {
++   # Calculate straight bond value
++   coupon_payments <- par * coupon
++   straight_bond_value <- coupon_payments * (1 - (1 + rf_rate)^(-years)) / rf_rate + par / (1 + rf_rate)^years
++   
++   # Calculate conversion value
++   conversion_value <- conv_ratio * stock_price
++   
++   # Calculate option value using Black-Scholes
++   d1 <- (log(stock_price / (par/conv_ratio)) + (rf_rate + 0.5 * vol^2) * years) / (vol * sqrt(years))
++   d2 <- d1 - vol * sqrt(years)
++   
++   # Modified option value calculation
++   option_value <- conv_ratio * (stock_price * pnorm(d1) - (par/conv_ratio) * exp(-rf_rate * years) * pnorm(d2))
++   
++   # Convertible bond value is the maximum of straight bond value and conversion value plus option value
++   convertible_value <- max(straight_bond_value, conversion_value) + option_value
++   
++   return(list(convertible_value = convertible_value, 
++               straight_bond_value = straight_bond_value, 
++               conversion_value = conversion_value, 
++               option_value = option_value))
++ }
+> 
+> # Calculate convertible bond price
+> bond_result <- calculate_convertible_bond_price(par_value, coupon_rate, risk_free_rate, maturity, 
++                                                 conversion_ratio, stock_price, volatility)
+> 
+> # Print results
+> cat("Convertible Bond Price:", round(bond_result$convertible_value, 2), "\n")
+Convertible Bond Price: 137.6 
+> cat("Straight Bond Value:", round(bond_result$straight_bond_value, 2), "\n")
+Straight Bond Value: 114.14 
+> cat("Conversion Value:", round(bond_result$conversion_value, 2), "\n")
+Conversion Value: 90 
+> cat("Option Value:", round(bond_result$option_value, 2), "\n")
+Option Value: 23.46 
+> 
+> # Create a simple yield curve
+> years <- 1:30
+> yields <- risk_free_rate + (0.07 - risk_free_rate) * (1 - exp(-0.1 * years))
+> 
+> # Create a data frame for plotting
+> yield_curve_data <- data.frame(Years = years, Yield = yields)
+> 
+> # Plot 1: Yield Curve
+> p1 <- ggplot(yield_curve_data, aes(x = Years, y = Yield)) +
++   geom_line() +
++   annotate("point", x = maturity, y = risk_free_rate + 0.05, color = "red", size = 3) +
++   labs(title = "Yield Curve with Convertible Bond",
++        x = "Years to Maturity",
++        y = "Yield") +
++   theme_minimal() +
++   annotate("text", x = maturity, y = risk_free_rate + 0.05, 
++            label = "Convertible Bond", vjust = -1, color = "red")
+> print(p1)
+> # Plot 3: Convertible Bond Value vs Stock Price
+> stock_prices <- seq(2, 10, by = 0.1)
+> bond_values <- sapply(stock_prices, function(sp) {
++   calculate_convertible_bond_price(par_value, coupon_rate, risk_free_rate, maturity, 
++                                    conversion_ratio, sp, volatility)$convertible_value
++ })
+> 
+> price_data <- data.frame(StockPrice = stock_prices, BondValue = bond_values)
+> 
+> p3 <- ggplot(price_data, aes(x = StockPrice, y = BondValue)) +
++   geom_line() +
++   annotate("point", x = stock_price, y = bond_result$convertible_value, color = "red", size = 3) +
++   labs(title = "Convertible Bond Value vs Stock Price",
++        x = "Stock Price",
++        y = "Bond Value") +
++   theme_minimal() +
++   annotate("text", x = stock_price, y = bond_result$convertible_value, 
++            label = "Current Price", vjust = -1, color = "red")
+> p3
+Error in UseMethod("depth") : 
+  no applicable method for 'depth' applied to an object of class "NULL"
+Error in diff.default(xscale) : 
+  VECTOR_ELT() can only be applied to a 'list', not a 'double'
+Error in UseMethod("depth") : 
+  no applicable method for 'depth' applied to an object of class "NULL"
+> > > > print(head(price_data))
+  StockPrice BondValue
+1        2.0  116.2458
+2        2.1  116.6441
+3        2.2  117.0833
+4        2.3  117.5636
+5        2.4  118.0851
+6        2.5  118.6477
+> print(bond_result$convertible_value)
+[1] 137.6044
+> 
