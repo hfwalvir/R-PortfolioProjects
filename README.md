@@ -29,8 +29,9 @@ This project demonstrates the power and versatility of social network analysis u
 
 
 This project serves as both a tutorial and a reference for conducting social network analysis in R. It's suitable for beginners looking to understand the basics of network analysis, as well as for more advanced users seeking code examples for specific network metrics or visualization techniques.The code demonstrates the entire workflow from data import to complex analysis and visualization, making it a comprehensive resource for anyone interested in exploring social networks using R.
-**PROJECT 2:
-## Convertible Bond Pricing and Analysis in R**
+
+**PROJECT 2:**
+## Convertible Bond Pricing and Analysis in R
 
 This project implements a comprehensive analysis and pricing model for convertible bonds using R. It demonstrates the application of financial theory, particularly the Black-Scholes model, to price complex financial instruments.
 **Key Features :**
