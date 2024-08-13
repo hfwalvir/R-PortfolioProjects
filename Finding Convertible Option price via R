@@ -164,7 +164,7 @@ Option Value: 23.46
 +   annotate("text", x = maturity, y = risk_free_rate + 0.05, 
 +            label = "Convertible Bond", vjust = -1, color = "red")
 > print(p1)
-> # Plot 3: Convertible Bond Value vs Stock Price
+> # Plot 2: Convertible Bond Value vs Stock Price
 > stock_prices <- seq(2, 10, by = 0.1)
 > bond_values <- sapply(stock_prices, function(sp) {
 +   calculate_convertible_bond_price(par_value, coupon_rate, risk_free_rate, maturity, 
@@ -173,7 +173,7 @@ Option Value: 23.46
 > 
 > price_data <- data.frame(StockPrice = stock_prices, BondValue = bond_values)
 > 
-> p3 <- ggplot(price_data, aes(x = StockPrice, y = BondValue)) +
+> p2 <- ggplot(price_data, aes(x = StockPrice, y = BondValue)) +
 +   geom_line() +
 +   annotate("point", x = stock_price, y = bond_result$convertible_value, color = "red", size = 3) +
 +   labs(title = "Convertible Bond Value vs Stock Price",
@@ -182,7 +182,7 @@ Option Value: 23.46
 +   theme_minimal() +
 +   annotate("text", x = stock_price, y = bond_result$convertible_value, 
 +            label = "Current Price", vjust = -1, color = "red")
-> p3
+> p2
 Error in UseMethod("depth") : 
   no applicable method for 'depth' applied to an object of class "NULL"
 Error in diff.default(xscale) : 
