@@ -54,3 +54,4 @@ Students and researchers studying complex financial instruments
 Incorporation of more complex convertible bond features (e.g., call and put options)
 Integration with real-time market data
 Expansion to include other types of hybrid securities
+For enhanced explanation on the code please visit the following link : https://medium.com/@hfwalvir01/given-all-the-parameters-price-of-the-bond-is-86-1-ecab0a75666e
